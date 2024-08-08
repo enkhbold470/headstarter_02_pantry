@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SquigglyUnderline } from "@/components/navbar";
-
+import { ThemeProvider } from "@/components/theme-provider";
+import { NavigationMenuDemo } from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,14 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.className} dark:bg-black bg-white dark:text-white text-black`}
       >
-        <nav>
-          <SquigglyUnderline />
-        </nav>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <nav>
+            <NavigationMenuDemo />
+          </nav>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
