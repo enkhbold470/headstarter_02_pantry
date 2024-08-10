@@ -6,7 +6,7 @@ export default function ScanGrocery() {
       {/* <Input placeholder="Хүнсний нэр" /> */}
       <h1>Scan Grocery</h1>
       <Contact />
-      <div className='p-6 border border-white-500'>
+      <div className='p-6'>
 
         <DataTableDemo />
       </div>
