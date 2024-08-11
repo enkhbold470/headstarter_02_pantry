@@ -21,6 +21,7 @@ const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ onScan }) => {
         (result, err) => {
           if (result) {
             setScanning(true);
+            console.log(result.getText());
             onScan(result.getText());
           }
           if (err && !(err instanceof NotFoundException)) {
