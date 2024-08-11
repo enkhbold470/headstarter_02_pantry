@@ -33,7 +33,7 @@ export default function AddPantryItemManually() {
     e.preventDefault(); // Prevent the default form submission
 
     if (!itemName || !quantity) {
-      toast("Please fill in all fields.");
+      toast("Бүх талбарыг бөглөнө үү.");
       return;
     }
 
@@ -45,13 +45,13 @@ export default function AddPantryItemManually() {
       await setDoc(docRef, { name: itemName, quantity });
 
       // Show success message
-      toast("Pantry item added successfully!");
+      toast("Хүнсийг амжилттай нэмлээ!");
 
       // Reset form fields
       setItemName("");
       setQuantity(0);
     } catch (error) {
-      toast("Failed to add item. Try again.");
+      toast("Алдаа гарлаа. Дахин оролдоно уу.");
     }
   };
 
