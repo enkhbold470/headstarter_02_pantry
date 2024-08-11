@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -51,17 +50,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { firestore } from "@/lib/firebase"; // Assuming you have a firebase config file
-
-// const data: Product[] = [
-//   {
-//     name: "Milk",
-//     quantity: 1,
-//   },
-//   {
-//     name: "Bread",
-//     quantity: 1,
-//   },
-// ];
 
 export type Product = {
   name: string;
