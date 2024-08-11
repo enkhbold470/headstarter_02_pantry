@@ -1,39 +1,41 @@
+// pages/index.js
 "use client";
-import React, { useState, useRef } from "react";
-import { Camera } from "react-camera-pro";
+import React, { useState } from 'react';
+import BarcodeScanner from '@/components/barCodeScanner';
+import axios from 'axios';
 
-const CameraComponent = () => {
-  const camera = useRef(null);
-  const [image, setImage] = useState(null);
-  const [numberOfCameras, setNumberOfCameras] = useState(0);
+export default function Home() {
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleScan = async (barcode) => {
+    try {
+      const response = await axios.get(`/lib/server/product`, {
+        params: { barcode }
+      });
+      setProduct(response.data);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setProduct(null);
+      setError(err.response?.data?.error || 'Failed to fetch product information');
+
+    }
+  };
 
   return (
-    <div className="border w-20 flex">
-      <Camera
-        ref={camera}
-        aspectRatio={16 / 9}
-        numberOfCamerasCallback={setNumberOfCameras}
-      />
-      <img src={image} alt="Image preview" />
-      <button
-        onClick={() => {
-          const photo = camera.current.takePhoto();
-          setImage(photo);
-        }}
-      >
-        TAKE
-      </button>
-
-      <button
-        hidden={numberOfCameras <= 1}
-        onClick={() => {
-          camera.current.switchCamera();
-        }}
-      >
-        Switch Camera
-      </button>
+    <div>
+      <h1>Scan a Barcode</h1>
+      <BarcodeScanner onScan={handleScan} />
+      {product && (
+        <div>
+          <h2>Product Information</h2>
+          <p><strong>Name:</strong> {product.product_name}</p>
+          <p><strong>Ingredients:</strong> {product.ingredients_text}</p>
+          <p><strong>Nutritional Information:</strong> {JSON.stringify(product.nutriments)}</p>
+        </div>
+      )}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
-};
-
-export default CameraComponent;
+}
