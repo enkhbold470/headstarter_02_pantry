@@ -46,9 +46,7 @@ export default function Home() {
     } catch (err: any) {
       console.log(err);
       setProduct(null);
-      setError(
-        err.response?.data?.error || "Failed to fetch product information"
-      );
+      setError(err.response?.data?.error || "Алдаа гарлаа. Дахин оролдоно уу.");
     }
   };
 
@@ -83,19 +81,17 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="border flex flex-col gap-2 items-center">
+    <div className=" flex flex-col gap-2 items-center">
       <Button
         onClick={() => {
           setScanning(!scanning);
         }}
       >
-        {scanning ? "Stop Scanning" : "Start Scanning"}
-      </Button>
-      <Button>
-        {!scanning ? "Waiting..." : <Link href="/scanGrocery"> Go back</Link>}
+        {scanning ? "Зогсоох" : "Эхлэх"}
       </Button>
 
       {scanning && <BarcodeScanner onScan={handleScan} />}
+
       {product && (
         <>
           <div className="dark:text-white">
@@ -113,12 +109,15 @@ export default function Home() {
               setScanning(false);
             }}
           >
-            Save to Firestore
+            Хадгалах
           </Button>
         </>
       )}
+      <Button variant="outline">
+        <Link href="/scanGrocery"> Өмнөх хуудас руу буцах</Link>
+      </Button>
       {error && (
-        <p style={{ color: "red" }}>{`Scan grocery items! ${error}`}</p>
+        <p style={{ color: "red" }}>{`Зөвхөн хүнс уншуулна уу! ${error}`}</p>
       )}
     </div>
   );
