@@ -79,6 +79,9 @@ export default function Home() {
   useEffect(() => {
     updateInventory();
   }, []);
+  // if (!product.product_name) {
+  //   return <div>loading...</div>;
+  // }
 
   return (
     <div className=" flex flex-col gap-2 items-center">
