@@ -11,7 +11,7 @@ export default function ScanGrocery() {
             <Link href="/scanGrocery/add">Хүнс гараар нэмэх</Link>
           </Button>
           <Button>
-            <Link href="/scanGrocery/takepic">Хүнс баркодоор нэмэх</Link>
+            <Link href="/scanGrocery/barcodeScan">Хүнс баркодоор нэмэх</Link>
           </Button>
         </div>
         <DataTableDemo />
