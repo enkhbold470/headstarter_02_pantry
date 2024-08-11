@@ -47,6 +47,11 @@ export default function Home() {
       console.log(err);
       setProduct(null);
       setError(err.response?.data?.error || "Алдаа гарлаа. Дахин оролдоно уу.");
+      setInterval(() => {
+        "Буцаж байна...";
+        // going back to home page
+        window.location.href = "/scanGrocery";
+      }, 2000);
     }
   };
 

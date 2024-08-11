@@ -12,7 +12,7 @@ import {
 
 const navbarItems = [
   { name: "Нүүр", link: "/" },
-  { name: "Хүнс Оруулах", link: "/scanGrocery" },
+  { name: "Хүнсний жагсаалт", link: "/scanGrocery" },
   // { name: "Шим Тэжээл", link: "/nutrition" },
   { name: "Хоолны Жор Бэлдэх", link: "/recipes" },
 ];
