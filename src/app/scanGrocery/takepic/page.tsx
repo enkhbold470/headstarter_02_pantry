@@ -103,12 +103,7 @@ export default function Home() {
             <h2>{product.product_name}</h2>
             <p>{product.brands}</p>
             <p>{product.categories}</p>
-            <Image
-              src={product.image_url}
-              alt={product.product_name}
-              width={300}
-              height={300}
-            />
+            <img src={product.image_url} alt={product.product_name} />
           </div>
           <Button
             onClick={() => {
