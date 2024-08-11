@@ -166,7 +166,7 @@ export function DataTableDemo() {
 
     {
       accessorKey: "Nutrition",
-      id: "actions",
+      // id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
         const payment = row.original;
@@ -194,7 +194,7 @@ export function DataTableDemo() {
     },
     {
       accessorKey: "Remove",
-      id: "actions",
+      // id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
         const payment = row.original;
