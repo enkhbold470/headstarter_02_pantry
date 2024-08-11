@@ -14,7 +14,7 @@ const navbarItems = [
   { name: "Нүүр", link: "/" },
   { name: "Хүнсний жагсаалт", link: "/scanGrocery" },
   // { name: "Шим Тэжээл", link: "/nutrition" },
-  { name: "Хоолны Жор Бэлдэх", link: "/recipes" },
+  // { name: "Хоолны Жор Бэлдэх", link: "/recipes" },
 ];
 
 export function NavigationMenuDemo() {
