@@ -11,7 +11,7 @@ interface Product {
   image_url: string;
 }
 
-export default function Home() {
+export default function HomeTakePic() {
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -39,13 +39,16 @@ export default function Home() {
 
       {open && <BarcodeScanner onScan={handleScan} />}
       {product && (
-        <div className="text-black">
-          <h2>{product.product_name}</h2>
-          <p>{product.brands}</p>
-          <p>{product.categories}</p>
-          <img src={product.image_url} alt={product.product_name} />
-        </div>
+        <>
+          <div className="text-black">
+            <h2>{product.product_name}</h2>
+            <p>{product.brands}</p>
+            <p>{product.categories}</p>
+            <img src={product.image_url} alt={product.product_name} />
+          </div>
+        </>
       )}
+
       {/* {<Button
         onClick={() => {
           setOpen(false);
