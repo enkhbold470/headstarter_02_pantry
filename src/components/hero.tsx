@@ -48,9 +48,9 @@ export default function HeroSectionGradientBackground() {
                 <Button size={"lg"} asChild>
                   <Link href="/scanGrocery">Эхлэх </Link>
                 </Button>
-                <Button size={"lg"} variant={"outline"}>
+                {/* <Button size={"lg"} variant={"outline"}>
                   <Link href="/scanGrocery">Нэвтрэх</Link>
-                </Button>
+                </Button> */}
               </div>
               {/* End Buttons */}
             </div>
