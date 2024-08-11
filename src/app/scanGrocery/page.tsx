@@ -8,10 +8,10 @@ export default function ScanGrocery() {
       <div className="p-6  ">
         <div className="flex justify-between p-4">
           <Button>
-            <Link href="/scanGrocery/add">Add Item Manually</Link>
+            <Link href="/scanGrocery/add">Хүнс гараар нэмэх</Link>
           </Button>
           <Button>
-            <Link href="/scanGrocery/takepic">Barcode Scan</Link>
+            <Link href="/scanGrocery/takepic">Хүнс баркодоор нэмэх</Link>
           </Button>
         </div>
         <DataTableDemo />
