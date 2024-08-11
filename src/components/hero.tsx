@@ -9,7 +9,7 @@ export default function HeroSectionGradientBackground() {
   return (
     <>
       {/* Hero */}
-      <div className="relative overflow-hidden py-24 lg:py-32">
+      <div className="relative py-24 lg:py-32">
         {/* Gradients */}
         <div
           aria-hidden="true"
@@ -19,7 +19,7 @@ export default function HeroSectionGradientBackground() {
           <div className="bg-gradient-to-tl blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-primary-foreground via-primary-foreground to-background" />
         </div>
         {/* End Gradients */}
-        <div className="relative z-10">
+        <div className="relative">
           <div className="container py-10 lg:py-16">
             <div className="max-w-2xl text-center mx-auto">
               <p className="">{texts.motto}</p>
