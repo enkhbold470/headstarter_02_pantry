@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { useState, useEffect } from "react";
 import {
@@ -48,19 +47,9 @@ import {
   setDoc,
   query,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { firestore } from "@/lib/firebase"; // Assuming you have a firebase config file
-
-// const data: Product[] = [
-//   {
-//     name: "Milk",
-//     quantity: 1,
-//   },
-//   {
-//     name: "Bread",
-//     quantity: 1,
-//   },
-// ];
 
 export type Product = {
   name: string;
@@ -78,131 +67,40 @@ function useProducts() {
       inventoryList.push({ name: doc.id, quantity: doc.data().quantity });
     });
     setInventory(inventoryList);
-    console.log(inventoryList);
-    return inventoryList;
   };
 
   useEffect(() => {
     updateInventory();
   }, []);
 
-  return inventory;
+  const handleSaveToFirestore = async (product: string): Promise<void> => {
+    const docRef = doc(collection(firestore, "inventory"), product);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      await setDoc(docRef, { quantity: quantity + 1 });
+    } else {
+      await setDoc(docRef, { quantity: 1 });
+    }
+    await updateInventory();
+  };
+
+  const removeItem = async (item: string) => {
+    const docRef = doc(collection(firestore, "inventory"), item);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      if (quantity === 1) {
+        await deleteDoc(docRef);
+      } else {
+        await setDoc(docRef, { quantity: quantity - 1 });
+      }
+    }
+    await updateInventory();
+  };
+
+  return { inventory, handleSaveToFirestore, removeItem };
 }
-
-export const columns: ColumnDef<Product>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  // {
-  //   accessorKey: "status",
-  //   header: "Status",
-  //   cell: ({ row }) => (
-  //     <div className="capitalize">{row.getValue("status")}</div>
-  //   ),
-  // },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Нэр
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "quantity",
-    header: () => <div className="text-right">Тоо ширхэг</div>,
-    cell: ({ row }) => {
-      const amount = row.getValue("quantity");
-      const formatted = amount + " ширхэг";
-      // Format the amount as a dollar amount
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  // {
-  //   id: "actions",
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const payment = row.original;
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuItem
-  //             onClick={() => navigator.clipboard.writeText(payment.id)}
-  //           >
-  //             Copy payment ID
-  //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem>View customer</DropdownMenuItem>
-  //           <DropdownMenuItem>View payment details</DropdownMenuItem>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
-  {
-    accessorKey: "Nutrition",
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm">
-              View
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80">
-            <div className="grid gap-4">
-              <div className="space-y-2">
-                <h4 className="font-medium leading-none">Nutrition</h4>
-                <p className="text-sm text-muted-foreground">
-                  Calories: 80 | Carbs: 21g | Fiber: 4g | Vitamin C: 14%
-                </p>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      );
-    },
-  },
-];
 
 export function DataTableDemo() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -212,9 +110,110 @@ export function DataTableDemo() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const { inventory, removeItem } = useProducts();
+
+  const columns: ColumnDef<Product>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Нэр
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "quantity",
+      header: () => <div className="text-right">Тоо ширхэг</div>,
+      cell: ({ row }) => {
+        const amount = row.getValue("quantity");
+        const formatted = amount + " ширхэг";
+        // Format the amount as a dollar amount
+
+        return <div className="text-right font-medium">{formatted}</div>;
+      },
+    },
+
+    {
+      accessorKey: "Nutrition",
+      // id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const payment = row.original;
+
+        return (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                View
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Nutrition</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Calories: 80 | Carbs: 21g | Fiber: 4g | Vitamin C: 14%
+                  </p>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        );
+      },
+    },
+    {
+      accessorKey: "Remove",
+      // id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const payment = row.original;
+
+        return (
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => removeItem(row.original.name)}
+          >
+            Remove
+          </Button>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
-    data: useProducts(),
+    data: inventory,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -313,7 +312,7 @@ export function DataTableDemo() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Серверээс татаж байна...
+                  Бараа байхгүй байна эсвэл, серверээс татаж байна...
                 </TableCell>
               </TableRow>
             )}
