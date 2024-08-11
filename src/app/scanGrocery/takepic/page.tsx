@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import {
   doc,
   collection,
@@ -109,7 +108,9 @@ export default function Home() {
             onClick={() => {
               handleSaveToFirestore();
               toast("Хүнс амжилттай хадгалагдлаа🍞");
-              // showToast();
+              setProduct(null);
+              setScanHandled(false);
+              setScanning(false);
             }}
           >
             Save to Firestore
