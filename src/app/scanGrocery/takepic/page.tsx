@@ -48,7 +48,7 @@ export default function Home() {
       setProduct(null);
       setError(err.response?.data?.error || "Алдаа гарлаа. Дахин оролдоно уу.");
       setInterval(() => {
-        "Буцаж байна...";
+        <div>Буцаж байна...</div>;
         // going back to home page
         window.location.href = "/scanGrocery";
       }, 2000);
