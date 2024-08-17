@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 const texts = {
-  motto: "Шим тэжээлээ хянаарай",
+  motto: "",
   main: "Хүнсээ хянах",
-  description: "1000+ илүү хүн өдөр тутамдаа ашиглаж байна",
+  description: "Хүнсны жагсаалт гаргах шийдэл",
 };
 export default function HeroSectionGradientBackground() {
   return (
