@@ -7,8 +7,8 @@ import { NavigationMenuDemo } from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pantry App",
-  description: "A simple pantry app to keep track of your groceries.",
+  title: "ХүнсХяналт",
+  description: "Хүнсний жагсаалтыг гаргах шийдэл бүхий хянах систем.",
 };
 
 export default function RootLayout({
