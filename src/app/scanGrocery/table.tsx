@@ -164,36 +164,36 @@ export function DataTableDemo() {
       },
     },
 
-    {
-      accessorKey: "Nutrition",
-      // id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        const payment = row.original;
+    // {
+    //   accessorKey: "Ө",
+    //   // id: "actions",
+    //   enableHiding: false,
+    //   cell: ({ row }) => {
+    //     const payment = row.original;
 
-        return (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm">
-                View
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Nutrition</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Calories: 80 | Carbs: 21g | Fiber: 4g | Vitamin C: 14%
-                  </p>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
-        );
-      },
-    },
+    //     return (
+    //       <Popover>
+    //         <PopoverTrigger asChild>
+    //           <Button variant="outline" size="sm">
+    //             View
+    //           </Button>
+    //         </PopoverTrigger>
+    //         <PopoverContent className="w-80">
+    //           <div className="grid gap-4">
+    //             <div className="space-y-2">
+    //               <h4 className="font-medium leading-none">Nutrition</h4>
+    //               <p className="text-sm text-muted-foreground">
+    //                 Calories: 80 | Carbs: 21g | Fiber: 4g | Vitamin C: 14%
+    //               </p>
+    //             </div>
+    //           </div>
+    //         </PopoverContent>
+    //       </Popover>
+    //     );
+    //   },
+    // },
     {
-      accessorKey: "Remove",
+      accessorKey: "Устгах",
       // id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -205,7 +205,7 @@ export function DataTableDemo() {
             size="sm"
             onClick={() => removeItem(row.original.name)}
           >
-            Remove
+            Устгах
           </Button>
         );
       },
